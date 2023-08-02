@@ -1,0 +1,17 @@
+node
+{
+   def buildNumber = BUILD_NUMBER
+   stage("Git CheckOut"){
+        git url: 'https://github.com/karthick1234p/karthick1999.git/java-web-app-docker.git',branch: 'master'
+    }
+    
+    stage(" Maven Clean Package"){
+      def mavenHome =  tool name: "Maven", type: "maven"
+      def mavenCMD = "${mavenHome}/bin/mvn"
+      sh "${mavenCMD} clean package"
+    } 
+   stage("Build Docker Image") {
+         sh "docker build -t sivakumar715/javawebapp:${buildNumber} ."
+    }
+}
+
